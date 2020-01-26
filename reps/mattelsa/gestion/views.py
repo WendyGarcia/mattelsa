@@ -26,8 +26,9 @@ def crear_vehiculo(request):
     try:
         cliente = models.Cliente.objects.get(documento = request.POST['documento'])
 
-        form_vehiculo = forms.VehiculoForm(request.POST, cliente = cliente)
+        form_vehiculo = forms.VehiculoForm(request.POST)
         if form_vehiculo.is_valid():
+            form_vehiculo['cliente'] = cliente
             form_vehiculo.save()
 
     except models.Cliente.DoesNotExist:
@@ -43,21 +44,20 @@ def crear_vehiculo(request):
 
     return render(request, 'gestion/lista_vehiculos.html',{})
 
-def registrar(request):
-
+def registrar_ingreso(request): 
     if request.POST:
-
         registro = forms.RegistroForm(request.POST)
-
-       
-    else:
+        if registro.is_valid():
+            registro.save()
 
         form = forms.RegistroForm
+        return render(request, 'gestion/registro.html',{'form':form})
+    else:
+        form = forms.RegistroForm
     
-    return render(request, 'gestion/registro.html',{'form':form})
+        return render(request, 'gestion/registro.html',{'form':form})
 
 def consultar_vehiculo(request):
-    import pdb; pdb.set_trace()
     if request.POST['documento']:
 
         cliente = models.Cliente.objects.get(documento = request.POST['documento'])
@@ -72,4 +72,18 @@ def consultar_vehiculo(request):
         celdas = models.Celda.objects.all()
  
         return render(request, 'gestion/registro.html',{'vehiculos':vehiculos, 'celdas': celdas})
+
+
+def consultar_ingresos(request): 
+    if request.POST:
+        registro = forms.RegistroForm(request.POST)
+        if registro.is_valid():
+            registro.save()
+
+        form = forms.RegistroForm
+        return render(request, 'gestion/informe.html',{'form':form})
+    else:
+        ingresos = models.Registro.objects.all()
+    
+        return render(request, 'gestion/informe.html',{'ingresos':ingresos})
         

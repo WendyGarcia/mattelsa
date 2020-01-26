@@ -1,0 +1,32 @@
+{% extends 'gestion/base.html' %}
+
+{% block content %}
+
+    <form method="POST" class="post-form" action = "{% url 'consultar_vehiculo' %}">
+        {% csrf_token %}
+        Cedula:<br>
+        <input type="text" name="documento"><br>
+        <button type="submit" class="save btn btn-default">Consultar</button>
+    </form> 
+
+    <br>
+ 
+    <table>
+        {% for ingreso in ingresos %}
+        <tr>
+            <td>
+                Placa
+            </td>
+            <td>
+                {{ingreso.vehiculo}}
+                {{ingreso.vehiculo.documento}}
+                {{ingreso.fecha}}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="{% url 'nuevo_vehiculo' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
+  
+
+</body>
+{% endblock content %}

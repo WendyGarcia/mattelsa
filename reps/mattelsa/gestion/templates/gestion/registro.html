@@ -1,19 +1,22 @@
 {% extends 'gestion/base.html' %}
-
 {% block content %}
-<h2>Crear vehiculo</h2>
-<form method="POST" class="post-form" action = "{% url 'consultar_vehiculo' %}">
+
+<h2>Ingreso</h2>
+  <form method="POST" class="post-form" action = "{% url 'consultar_vehiculo' %}">
     {% csrf_token %}
     Cedula:<br>
     <input type="text" name="documento"><br>
     Placa:<br>
     <input type="text" name="placa">
-    <button type="submit" class="save btn btn-default">Consultar</button>
+    <b utton type="submit" class="save btn btn-success">Consultar</b utton>
   </form> 
   <br>
   <br>
   <div>
-      <form>
+    
+      <form form method="POST" class="post-form" action = "{% url 'registrar_ingreso' %}">
+        
+        {% csrf_token %}
         Vehiculo:<br>
         <select name="vehiculo">
             {%for val in vehiculos %}
@@ -29,7 +32,7 @@
         </select>
         <br>
         Fecha:<br>
-        <input type="datetime" name="fecha">
+        <input type="datetime" name="fecha"><br>
         
         <button type="submit" class="save btn btn-default">Consultar</button>
       </form> 

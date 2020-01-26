@@ -56,4 +56,4 @@ class Registro(models.Model):
 
     vehiculo = models.ForeignKey(Vehiculo, verbose_name='Vehiculo', on_delete=models.CASCADE)
     celda = models.ForeignKey(Celda, verbose_name='Celda', on_delete=models.CASCADE)
-    Fecha = models.DateTimeField('Fecha ingreso')
+    fecha = models.DateTimeField('Fecha ingreso')

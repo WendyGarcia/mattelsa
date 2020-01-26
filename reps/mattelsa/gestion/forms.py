@@ -26,4 +26,8 @@ class ClienteForm(forms.ModelForm):
 class RegistroForm(forms.ModelForm):
     class Meta:
         model = models.Registro
-        fields = ('vehiculo', 'celda', 'Fecha')
+        fields = ('vehiculo', 'celda', 'fecha')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)   
+        self.fields['fecha'].input_formats = ['%d/%m/%Y']
