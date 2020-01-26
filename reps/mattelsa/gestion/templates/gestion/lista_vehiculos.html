@@ -1,0 +1,25 @@
+{% extends 'gestion/base.html' %}
+
+{% block content %}
+
+    
+
+    <br>
+ 
+    <table>
+        {% for vehiculo in vehiculos %}
+        <tr>
+            <td>
+                Placa
+            </td>
+            <td>
+                {{vehiculo.placa}}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="{% url 'nuevo_vehiculo' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
+  
+
+</body>
+{% endblock content %}

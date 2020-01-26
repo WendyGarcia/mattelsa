@@ -1,0 +1,39 @@
+{% extends 'gestion/base.html' %}
+
+{% block content %}
+<h2>Crear vehiculo</h2>
+<form method="POST" class="post-form" action = "{% url 'consultar_vehiculo' %}">
+    {% csrf_token %}
+    Cedula:<br>
+    <input type="text" name="documento"><br>
+    Placa:<br>
+    <input type="text" name="placa">
+    <button type="submit" class="save btn btn-default">Consultar</button>
+  </form> 
+  <br>
+  <br>
+  <div>
+      <form>
+        Vehiculo:<br>
+        <select name="vehiculo">
+            {%for val in vehiculos %}
+            <option value="{{val.id}}">{{val.placa}}</option> 
+            {%endfor%}
+        </select>
+         <br>
+        Celdas:<br>
+        <select name="celda">
+            {%for val in celdas %}
+            <option value="{{val.id}}">{{val.numero}}</option> 
+            {%endfor%}
+        </select>
+        <br>
+        Fecha:<br>
+        <input type="datetime" name="fecha">
+        
+        <button type="submit" class="save btn btn-default">Consultar</button>
+      </form> 
+
+  </div>
+
+{% endblock %}

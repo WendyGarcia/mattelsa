@@ -28,12 +28,13 @@ class TipoVehiculo(models.Model):
 
 
 class Vehiculo(models.Model):
+    cliente = models.ForeignKey(Cliente, verbose_name='cliente', on_delete=models.CASCADE)
     cilindraje = models.CharField('Cilindraje', max_length=200, null=True, blank=True)
     tiempos = models.CharField('Tiempos', max_length=200, null=True, blank=True)
     placa = models.CharField('Placa', max_length=200)
     modelo = models.CharField('Modelo', max_length=200, null=True, blank=True)
-    puertas = models.IntegerField('Puertas', max_length=200, null=True, blank=True)    
-    foto = models.FileField('Foto')
+    puertas = models.IntegerField('Puertas', null=True, blank=True)    
+    foto = models.FileField('Foto', null=True, blank=True)
     tipo = models.ForeignKey(TipoVehiculo, verbose_name='Tipo vehiculo', on_delete=models.CASCADE)
 
 
@@ -43,12 +44,12 @@ class Vehiculo(models.Model):
 
 
 class Celda(models.Model):
-    numero = models.IntegerField('Numero', max_length=200)
+    numero = models.IntegerField('Numero')
     descripcion = models.CharField('Nombre', max_length=200)
 
 
     def __str__(self):
-        return self.nombre
+        return self.descripcion
 
 
 class Registro(models.Model):
