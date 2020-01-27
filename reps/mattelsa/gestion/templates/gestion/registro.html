@@ -4,35 +4,48 @@
 <h2>Ingreso</h2>
   <form method="POST" class="post-form" action = "{% url 'consultar_vehiculo' %}">
     {% csrf_token %}
-    Cedula:<br>
-    <input type="text" name="documento"><br>
-    Placa:<br>
-    <input type="text" name="placa">
-    <b utton type="submit" class="save btn btn-success">Consultar</b utton>
+    <div class="form-group">
+      <label for="modelo">Cedula</label>
+      <input type="text" class="form-control" name ="documento"  id="documento">
+     
+    </div>
+    <div class="form-group">
+      <label for="modelo">Placa</label>
+      <input type="text" class="form-control" name ="placa"  id="placa">
+    </div>
+    <button type="submit" class="save btn btn-success">Consultar</button>
   </form> 
-  <br>
-  <br>
-  <div>
     
       <form form method="POST" class="post-form" action = "{% url 'registrar_ingreso' %}">
         
         {% csrf_token %}
-        Vehiculo:<br>
-        <select name="vehiculo">
-            {%for val in vehiculos %}
-            <option value="{{val.id}}">{{val.placa}}</option> 
-            {%endfor%}
+        <div class="form-group">
+          <label for="tipo">Vehiculo</label>
+          <select class="form-control" id="vehiculo" name="vehiculo">
+              {% for val in vehiculos %}
+                  <option value ="{{val.id}}">{{val.placa}}</option>
+              {% endfor %}
+              
+          </select>
+      </div>
+      <div class="form-group">
+        <label for="tipo">Celdas</label>
+        <select class="form-control" id="celda" name="celda">
+            {% for val in celdas %}
+                <option value ="{{val.id}}">{{val.numero}}</option>
+            {% endfor %}
+            
         </select>
-         <br>
-        Celdas:<br>
-        <select name="celda">
-            {%for val in celdas %}
-            <option value="{{val.id}}">{{val.numero}}</option> 
-            {%endfor%}
-        </select>
-        <br>
-        Fecha:<br>
-        <input type="datetime" name="fecha"><br>
+    </div>
+
+      <div class="form-group">
+        <div class='input-group date' id='fecha' name="fecha">
+            <input type='text' class="form-control" />
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+        </div>
+    </div>
         
         <button type="submit" class="save btn btn-default">Consultar</button>
       </form> 
@@ -40,3 +53,9 @@
   </div>
 
 {% endblock %}
+
+<script type="text/javascript">
+  $(function () {
+      $('#fecha').datetimepicker();
+  });
+</script>

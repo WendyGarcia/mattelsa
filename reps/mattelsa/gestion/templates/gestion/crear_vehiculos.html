@@ -5,18 +5,91 @@
 <form method="POST" class="post-form" action = "{% url 'registrar_vehiculo' %}">
     {% csrf_token %}
     <div>
-        {{form_cliente}}
+        <div class="form-group">
+            <label for="modelo">Nombre</label>
+            <input type="text" class="form-control" name ="modelo"  id="modelo">
+           
+        </div>
+        <div class="form-group">
+            <label for="puertas">Documento</label>
+            <input type="number" class="form-control" name ="puertas"  id="puertas">
+           
+        </div>
+        <div class="form-group">
+            <label for="tipo">Tipo documento</label>
+            <select class="form-control" id="tipo">
+                {% for val in tipo_documento %}
+                    <option value ="{{val.id}}">{{val.nombre}}</option>
+                {% endfor %}
+                
+            </select>
+        </div>
     </div>
     <div>
-        {{ form }}
         <div class="form-group">
-            <label for="exampleInputEmail1">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            <label for="tipo">Tipo vehiculo</label>
+            <select class="form-control" id="tipo">
+                {% for val in tipo_vehiculo %}
+                    <option value ="{{val.id}}">{{val.nombre}}</option>
+                {% endfor %}
+                
+            </select>
         </div>
-
-
-    </div>
-    <button type="submit" class="save btn btn-default">Save</button>
+        <div id="moto" >
+            <div class="form-group">
+                <label for="cilindraje">cilindraje</label>
+                <input type="text" class="form-control"  name ="cilindraje" id="cilindraje">
+            
+            </div>
+            <div class="form-group">
+                <label for="tiempos">tiempos</label>
+                <input type="text" class="form-control" name ="tiempos"  id="tiempos">
+            
+            </div>
+        </div>
+        <div id="carro" >
+            <div class="form-group">
+                <label for="modelo">modelo</label>
+                <input type="text" class="form-control" name ="modelo"  id="modelo">
+               
+            </div>
+            <div class="form-group">
+                <label for="puertas">puertas</label>
+                <input type="number" class="form-control" name ="puertas"  id="puertas">
+               
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="placa">placa</label>
+            <input type="text" class="form-control" name ="placa"  id="placa">
+           
+        </div>
+        
+        <div class="form-group">
+            <label for="foto">foto</label>
+            <input type="file" class="form-control-file" name ="foto"  id="foto">
+        </div>
+       
+    <button type="submit" class="save btn btn-success">Save</button>
 </form>
 {% endblock %}
+
+
+{% block scripts %}
+$(document).ready(function(){
+    console.log("sss");
+    
+   $("#tipo").change(function(){
+     if ($('#tipo').value=='1' ) {
+        document.getElementById('moto').style.display='none';
+        $('#moto').hide();
+        $('#carro').show();
+         
+     }
+     if ($('#tipo').value=='2' ) {
+        $('#carro').hide();
+        $('#moto').show();
+        }
+   });
+ });
+ {% endblock scripts %}

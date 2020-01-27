@@ -2,29 +2,37 @@
 
 {% block content %}
 
-    <form method="POST" class="post-form" action = "{% url 'consultar_vehiculo' %}">
+    <form method="POST" class="post-form" action = "{% url 'consultar_ingresos' %}">
         {% csrf_token %}
         Cedula:<br>
         <input type="text" name="documento"><br>
-        <button type="submit" class="save btn btn-default">Consultar</button>
+        <button type="submit" class="save btn btn-success">Consultar</button>
     </form> 
 
     <br>
- 
-    <table>
-        {% for ingreso in ingresos %}
-        <tr>
-            <td>
-                Placa
-            </td>
-            <td>
-                {{ingreso.vehiculo}}
-                {{ingreso.vehiculo.documento}}
-                {{ingreso.fecha}}
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
+ <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Placa</th>
+      <th scope="col">Docuemento</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Celda</th>
+      <th scope="col">Fecha</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for ingreso in ingresos %}
+    <tr>
+      <td>{{ingreso.vehiculo}}</td>
+      <td>{{ingreso.vehiculo.cliente.documento}}</td>
+      <td>{{ingreso.vehiculo.cliente}}</td>
+      <td>{{ingreso.celda}}</td>
+      <td>{{ingreso.fecha}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
     <a href="{% url 'nuevo_vehiculo' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
   
 

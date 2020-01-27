@@ -16,7 +16,10 @@ def listar_vehiculos(request):
 def nuevo_vehiculo(request):
     form = forms.VehiculoForm()
     form_cliente = forms.ClienteForm()
-    return render(request, 'gestion/crear_vehiculos.html',{'form':form,
+    tipo_vehiculo = models.TipoVehiculo.objects.all()
+    tipo_documento = models.TipoDocumento.objects.all()
+    return render(request, 'gestion/crear_vehiculos.html',{'tipo_vehiculo':tipo_vehiculo,
+                                                        'tipo_documento':tipo_documento,
                                                      'form_cliente':form_cliente})
 
 
@@ -75,13 +78,17 @@ def consultar_vehiculo(request):
 
 
 def consultar_ingresos(request): 
+    import pdb; pdb.set_trace()
     if request.POST:
-        registro = forms.RegistroForm(request.POST)
-        if registro.is_valid():
-            registro.save()
 
-        form = forms.RegistroForm
-        return render(request, 'gestion/informe.html',{'form':form})
+        clientes = models.Cliente.objects.filter(documento = request.POST['documento']).values_list('id', flat=True)
+
+        vehiculos = models.Vehiculo.objects.filter(cliente__in = clientes).values_list('id', flat=True)
+
+        ingresos = models.Registro.objects.filter(vehiculo__in = vehiculos)
+
+
+        return render(request, 'gestion/informe.html',{'ingresos': ingresos })
     else:
         ingresos = models.Registro.objects.all()
     
