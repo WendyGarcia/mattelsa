@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.contrib import messages
 from . import models
 from . import forms
 
@@ -24,73 +25,84 @@ def nuevo_vehiculo(request):
 
 
 def crear_vehiculo(request):
-    import pdb; pdb.set_trace()
-
     try:
-        cliente = models.Cliente.objects.get(documento = request.POST['documento'])
 
-        form_vehiculo = forms.VehiculoForm(request.POST)
-        if form_vehiculo.is_valid():
-            form_vehiculo['cliente'] = cliente
-            form_vehiculo.save()
+        try:
+            cliente = models.Cliente.objects.get(documento = request.POST['documento'])
 
-    except models.Cliente.DoesNotExist:
+            form_vehiculo = forms.VehiculoForm(request.POST)
+            if form_vehiculo.is_valid():
+                nuevo_cliente = form_vehiculo.save(commit=False)
+                nuevo_cliente.cliente = cliente
+                nuevo_cliente.save()
 
-        form_cliente = forms.ClienteForm(request.POST)
-        if form_cliente.is_valid():
-            form_cliente.save()
+        except models.Cliente.DoesNotExist:
 
-        form_vehiculo = forms.VehiculoForm(request.POST, form_cliente.instance)
-        if form_vehiculo.is_valid():
-            form_vehiculo.save()
+            form_cliente = forms.ClienteForm(request.POST)
+            if form_cliente.is_valid():
+                form_cliente.save()
 
+            form_vehiculo = forms.VehiculoForm(request.POST)
+            if form_vehiculo.is_valid():
+                nuevo_cliente = form_vehiculo.save(commit=False)
+                nuevo_cliente.cliente = form_cliente.instance
+                nuevo_cliente.save()
+
+        messages.success(request, "Vehiculo creado correctamente")
+    except:
+
+        messages.warning(request, "Ocurrio un error, por favor intente nuevamente")
 
     return render(request, 'gestion/lista_vehiculos.html',{})
 
 def registrar_ingreso(request): 
     if request.POST:
-        registro = forms.RegistroForm(request.POST)
-        if registro.is_valid():
-            registro.save()
+        try:
+            registro = forms.RegistroForm(request.POST)
+            if registro.is_valid():
+                registro.save()
 
-        form = forms.RegistroForm
-        return render(request, 'gestion/registro.html',{'form':form})
+            form = forms.RegistroForm
+            messages.success(request, "Ingreso creado correctamente")
+
+            return render(request, 'gestion/registro.html',{'form':form})
+        except:
+            form = forms.RegistroForm
+            messages.warning(request, "Ocurrio un error, por favor intente nuevamente")
+            return render(request, 'gestion/registro.html',{'form':form})
     else:
+        
         form = forms.RegistroForm
+        celdas = models.Celda.objects.all()
     
-        return render(request, 'gestion/registro.html',{'form':form})
+        return render(request, 'gestion/registro.html',{'celdas':celdas})
 
 def consultar_vehiculo(request):
     if request.POST['documento']:
 
         cliente = models.Cliente.objects.get(documento = request.POST['documento'])
         vehiculos = models.Vehiculo.objects.filter(cliente = cliente.id)
-        celdas = models.Celda.objects.all()
+        celdas = models.Celda.objects.filter(ocupado = False)
 
         return render(request, 'gestion/registro.html',{'vehiculos':vehiculos, 'celdas': celdas})
 
     if request.POST['placa']:
 
         vehiculos = models.Vehiculo.objects.filter(placa = request.POST['placa'])
-        celdas = models.Celda.objects.all()
+        celdas = models.Celda.objects.filter(ocupado = False)
  
         return render(request, 'gestion/registro.html',{'vehiculos':vehiculos, 'celdas': celdas})
 
 
 def consultar_ingresos(request): 
-    import pdb; pdb.set_trace()
     if request.POST:
 
         clientes = models.Cliente.objects.filter(documento = request.POST['documento']).values_list('id', flat=True)
-
         vehiculos = models.Vehiculo.objects.filter(cliente__in = clientes).values_list('id', flat=True)
-
         ingresos = models.Registro.objects.filter(vehiculo__in = vehiculos)
 
-
-        return render(request, 'gestion/informe.html',{'ingresos': ingresos })
     else:
         ingresos = models.Registro.objects.all()
     
-        return render(request, 'gestion/informe.html',{'ingresos':ingresos})
+    return render(request, 'gestion/informe.html',{'ingresos':ingresos})
         

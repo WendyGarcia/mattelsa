@@ -46,6 +46,7 @@ class Vehiculo(models.Model):
 class Celda(models.Model):
     numero = models.IntegerField('Numero')
     descripcion = models.CharField('Nombre', max_length=200)
+    ocupada = models.BooleanField('Estado', default=False)
 
 
     def __str__(self):

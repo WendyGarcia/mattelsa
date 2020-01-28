@@ -1,4 +1,5 @@
 {% extends 'gestion/base.html' %}
+{% load static %}
 {% block content %}
 
 <h2>Ingreso</h2>
@@ -13,49 +14,66 @@
       <label for="modelo">Placa</label>
       <input type="text" class="form-control" name ="placa"  id="placa">
     </div>
-    <button type="submit" class="save btn btn-success">Consultar</button>
+    <button type="submit" class="save btn btn-primary">Consultar</button>
   </form> 
+  <br>
+  <div class="panel panel-default">
+      <div class="panel-body">
     
-      <form form method="POST" class="post-form" action = "{% url 'registrar_ingreso' %}">
-        
-        {% csrf_token %}
-        <div class="form-group">
-          <label for="tipo">Vehiculo</label>
-          <select class="form-control" id="vehiculo" name="vehiculo">
-              {% for val in vehiculos %}
-                  <option value ="{{val.id}}">{{val.placa}}</option>
+        <form form method="POST" class="post-form" action = "{% url 'registrar_ingreso' %}">
+          
+          {% csrf_token %}
+          <div class="form-group">
+              <label for="tipo">Vehiculo</label>
+              <select class="form-control" id="vehiculo" name="vehiculo">
+                  {% for val in vehiculos %}
+                      <option value ="{{val.id}}">{{val.placa}}</option>
+                  {% endfor %}
+                
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="tipo">Celdas</label>
+            <select class="form-control" id="celda" name="celda">
+              {% for val in celdas %}
+                  <option value ="{{val.id}}">{{val.numero}}</option>
               {% endfor %}
               
-          </select>
-      </div>
-      <div class="form-group">
-        <label for="tipo">Celdas</label>
-        <select class="form-control" id="celda" name="celda">
-            {% for val in celdas %}
-                <option value ="{{val.id}}">{{val.numero}}</option>
-            {% endfor %}
-            
-        </select>
-    </div>
+            </select>
+          </div>  
 
-      <div class="form-group">
-        <div class='input-group date' id='fecha' name="fecha">
-            <input type='text' class="form-control" />
-            <span class="input-group-addon">
-                <span class="glyphicon glyphicon-calendar"></span>
-            </span>
+          <div class="form-group">
+            <label for="dtp_input1" >Fecha y hora de ingreso</label>
+            <div class="input-group date form_datetime" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
+                <input class="form-control" size="16" type="text" value="" readonly>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+            </div>
+            <input type="hidden" id="dtp_input1" value="" /><br/>
+          </div>
+  
+        <button type="submit" class="save btn btn-success">Guardar</button>
         </div>
-    </div>
         
-        <button type="submit" class="save btn btn-default">Consultar</button>
-      </form> 
-
+        </form> 
+          
+      </div>
   </div>
+</div>
 
+<script>
+
+  $('.form_datetime').datetimepicker({
+    language:  'es',
+    weekStart: 1,
+    todayBtn:  1,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 2,
+		forceParse: 0,
+    showMeridian: 1
+    });
+
+</script>
 {% endblock %}
 
-<script type="text/javascript">
-  $(function () {
-      $('#fecha').datetimepicker();
-  });
-</script>
