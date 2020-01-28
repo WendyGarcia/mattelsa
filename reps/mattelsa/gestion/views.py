@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib import messages
 from . import models
 from . import forms
@@ -62,6 +62,8 @@ def registrar_ingreso(request):
             if registro.is_valid():
                 registro.save()
 
+                models.Celda.objects.update(ocupada = True)
+
             form = forms.RegistroForm
             messages.success(request, "Ingreso creado correctamente")
 
@@ -79,19 +81,25 @@ def registrar_ingreso(request):
 
 def consultar_vehiculo(request):
     if request.POST['documento']:
+        try:
+            cliente = models.Cliente.objects.get(documento = request.POST['documento'])
+            vehiculos = models.Vehiculo.objects.filter(cliente = cliente.id)
+            celdas = models.Celda.objects.filter(ocupada = False)
 
-        cliente = models.Cliente.objects.get(documento = request.POST['documento'])
-        vehiculos = models.Vehiculo.objects.filter(cliente = cliente.id)
-        celdas = models.Celda.objects.filter(ocupado = False)
-
-        return render(request, 'gestion/registro.html',{'vehiculos':vehiculos, 'celdas': celdas})
+            return render(request, 'gestion/registro.html',{'vehiculos':vehiculos, 'celdas': celdas})
+        except models.Cliente.DoesNotExist:
+            messages.warning(request, "El cliente no se encuentra registrado")
+            return redirect("nuevo_vehiculo")
 
     if request.POST['placa']:
-
-        vehiculos = models.Vehiculo.objects.filter(placa = request.POST['placa'])
-        celdas = models.Celda.objects.filter(ocupado = False)
- 
-        return render(request, 'gestion/registro.html',{'vehiculos':vehiculos, 'celdas': celdas})
+        try:
+            vehiculos = models.Vehiculo.objects.get(placa = request.POST['placa'])
+            celdas = models.Celda.objects.filter(ocupada = False)
+    
+            return render(request, 'gestion/registro.html',{'vehiculos':vehiculos, 'celdas': celdas})
+        except models.Vehiculo.DoesNotExist:
+            messages.warning(request, "El vehiculo no se encuentra registrado")
+            return redirect("nuevo_vehiculo")
 
 
 def consultar_ingresos(request): 

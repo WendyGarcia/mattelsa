@@ -75,13 +75,12 @@
 {% endblock %}
 
 
-{% block scripts %}
+<script>
 $(document).ready(function(){
     console.log("sss");
     
    $("#tipo").change(function(){
      if ($('#tipo').value=='1' ) {
-        document.getElementById('moto').style.display='none';
         $('#moto').hide();
         $('#carro').show();
          
@@ -92,4 +91,4 @@ $(document).ready(function(){
         }
    });
  });
- {% endblock scripts %}
+ </script>

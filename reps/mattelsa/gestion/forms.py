@@ -30,5 +30,4 @@ class RegistroForm(forms.ModelForm):
         fields = ('vehiculo', 'celda', 'fecha')
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)   
-        self.fields['fecha'].input_formats = ['%d/%m/%Y']
+        super().__init__(*args, **kwargs)

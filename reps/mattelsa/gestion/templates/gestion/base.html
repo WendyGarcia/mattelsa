@@ -20,27 +20,25 @@
       </head>
       
       <body>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-          
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                  <a class="nav-link" href="#">Inicio <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'nuevo_vehiculo' %}">Registro vehiculos</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'consultar_ingresos' %}">Consultar ingresos</a>
-                  </li> 
-                  <li class="nav-item">
-                    <a class="nav-link" href="{% url 'registrar_ingreso' %}">Registrar ingreso</a>
-                  </li>   
-                  
-               
+        <nav class="navbar navbar-default">
+          <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+         
+        
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Home <span class="sr-only">(current)</span></a></li>
+                <li><a href="{% url 'nuevo_vehiculo' %}">Registro vehiculos</a></li>
+                <li><a href="{% url 'consultar_ingresos' %}">Consultar ingresos</a></li>
+                <li><a href="{% url 'registrar_ingreso' %}">Registrar ingreso</a></li>
+                
               </ul>
-            </div>
-          </nav>
+             
+              
+            </div><!-- /.navbar-collapse -->
+          </div><!-- /.container-fluid -->
+        </nav>
           <div class="content container">
             <div class="row">
                 <div class="col-md-8">
@@ -53,4 +51,29 @@
   </body>
 
 </html>
+<script>
+$(document).ready(function(){
+    console.log("sss");
+    
+   $("#tipo").change(function(){
+     if ($('#tipo').value=='1' ) {
+        $('#moto').hide();
+        $('#carro').show();
+         
+     }
+     if ($('#tipo').value=='2' ) {
+        $('#carro').hide();
+        $('#moto').show();
+        }
+   });
+ });
 
+</script>
+
+{% if messages %}
+   <script>
+    {% for message in messages %}
+        alert("{{ message }}");
+    {% endfor %}
+   </script>
+{% endif %}
