@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
+import datetime
 from . import models
 from . import forms
 
@@ -59,14 +60,16 @@ def crear_vehiculo(request):
 
     return redirect("nuevo_vehiculo")
 
-def registrar_ingreso(request): 
+def registrar_ingreso(request):
     if request.POST:
         try:
             registro = forms.RegistroForm(request.POST)
             if registro.is_valid():
                 registro.save()
 
-                models.Celda.objects.update(ocupada = True)
+                celda = models.Celda.objects.get(id = request.POST['celda'])
+                celda.ocupada = True
+                celda.save(force_update = True)
 
             form = forms.RegistroForm
             messages.success(request, "Ingreso creado correctamente")
@@ -103,7 +106,8 @@ def consultar_vehiculo(request):
             celdas = models.Celda.objects.filter(ocupada = False)    
 
             if vehiculos:
-                registro = models.Registro.objects.filter(vehiculo = vehiculos.last()).last()
+                registro = models.Registro.objects.filter(vehiculo = vehiculos.last(),
+                                                        fecha_salida__isnull = True).last()
                 return render(request, 'gestion/registro.html',{'vehiculos':vehiculos,
                                                                 'celdas': celdas,
                                                                 'registro': registro})
@@ -135,4 +139,21 @@ def consultar_ingresos(request):
         ingresos = models.Registro.objects.all()
     
     return render(request, 'gestion/informe.html',{'ingresos':ingresos})
-        
+
+
+def salir(request, registro_id):
+    try:
+        ingreso = models.Registro.objects.get(id = registro_id)
+        ingreso.fecha_salida = datetime.datetime.now()
+        ingreso.save(force_update=True)
+
+        celda = models.Celda.objects.get(id=ingreso.celda.id)
+        celda.ocupada = False
+        celda.save(force_update=True)
+
+        messages.warning(request, "Salida registrada correctamente")
+    except:
+
+        messages.error(request, "Ocurrio un error, intente nuevamente")
+
+    return render(request, 'gestion/registro.html',{})

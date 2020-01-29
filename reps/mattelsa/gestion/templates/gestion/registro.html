@@ -88,17 +88,20 @@
             </select>
           </div>
           
-          <div class="form-group">
-            <label for="dtp_input1" >Fecha y hora de ingreso</label>
-            <div class="input-group date form_datetime" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
-              <input class="form-control" size="16" type="text" value="" readonly>
-              <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-              <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
-            </div>
-            <input type="hidden" id="dtp_input1"  name="fecha" value="" /><br/>
-          </div>
+              <div class="form-group">
+                <label for="dtp_input1" >Fecha y hora de ingreso</label>
+                <div class="input-group date form_datetime"  data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
+                  <input class="form-control" size="16" type="text" value="" readonly>
+                  <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                  <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                </div>
+                <input type="hidden" id="dtp_input1"  name="fecha" value="" /><br/>
+              </div>
           
-          <button type="submit" class="save btn btn-success">Guardar</button>
+            <button type="submit" class="save btn btn-success">Guardar</button>
+          {% endif %}  
+          {% if registro %}
+            <a type="button" href="{% url 'salir' registro.id %}" >Salida</button>
           {% endif %}  
         </div>
         

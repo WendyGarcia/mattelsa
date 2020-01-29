@@ -11,4 +11,5 @@ urlpatterns = [
     path('registro', login_required(views.registrar_ingreso), name='registrar_ingreso'),
     path('consultar/vehiculo', login_required(views.consultar_vehiculo), name='consultar_vehiculo'),
     path('consultar/ingresos', login_required(views.consultar_ingresos), name='consultar_ingresos'),
+    path('salir/<int:registro_id>', login_required(views.salir), name='salir'),
 ]
