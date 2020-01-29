@@ -30,8 +30,10 @@
               <ul class="nav navbar-nav">
                 <li class="active"><a href="#">Home <span class="sr-only">(current)</span></a></li>
                 <li><a href="{% url 'nuevo_vehiculo' %}">Registro vehiculos</a></li>
-                <li><a href="{% url 'consultar_ingresos' %}">Consultar ingresos</a></li>
                 <li><a href="{% url 'registrar_ingreso' %}">Registrar ingreso</a></li>
+                {% if user.is_superuser %}
+                  <li><a href="{% url 'consultar_ingresos' %}">Consultar ingresos</a></li>
+                {% endif %}
                 <li><a href="{% url 'logout' %}">Cerrar sesion</a></li>
                 
               </ul>

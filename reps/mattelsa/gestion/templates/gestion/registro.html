@@ -17,18 +17,19 @@
     <button type="submit" class="save btn btn-primary">Consultar</button>
   </form> 
   <br>
+  {%if vehiculos%}
   <div class="panel panel-default">
     <table class="table">
       <thead>
         <tr>
-          <th scope="col">cliente</th>
-          <th scope="col">cilindraje</th>
-          <th scope="col">tiempos</th>
-          <th scope="col">placa</th>
-          <th scope="col">modelo</th>
-          <th scope="col">puertas</th>
-          <th scope="col">foto</th>
-          <th scope="col">tipo</th>
+          <th scope="col">Cliente</th>
+          <th scope="col">Cilindraje</th>
+          <th scope="col">Tiempos</th>
+          <th scope="col">Placa</th>
+          <th scope="col">Modelo</th>
+          <th scope="col">Puertas</th>
+          <th scope="col">Foto</th>
+          <th scope="col">Tipo</th>
         </tr>
       </thead>
       <tbody>
@@ -53,6 +54,7 @@
     </table>
     
   </div>
+  {% endif %}
   <div class="panel panel-default">
       <div class="panel-body">
     
