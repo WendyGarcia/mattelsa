@@ -4,8 +4,28 @@
 
     <form method="POST" class="post-form" action = "{% url 'consultar_ingresos' %}">
         {% csrf_token %}
-        Cedula:<br>
-        <input type="text" name="documento"><br>
+        <div class="form-group">
+          <label for="modelo">Cedula</label>
+          <input type="text" class="form-control" name ="documento"  id="documento">         
+        </div>
+        <div class="form-group">
+          <label for="dtp_input1" >Fecha desde</label>
+          <div class="input-group date form_datetime" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy" data-link-field="dtp_input1">
+              <input class="form-control" size="16" type="text" value="" readonly>
+              <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+              <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+          </div>
+          <input type="hidden" id="dtp_input1"  name="fecha_desde" value="" /><br/>
+        </div>
+        <div class="form-group">
+          <label for="dtp_input2" >Fecha hasta</label>
+          <div class="input-group date form_datetime" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy " data-link-field="dtp_input2">
+              <input class="form-control" size="16" type="text" value="" readonly>
+              <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+              <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+          </div>
+          <input type="hidden" id="dtp_input2"  name="fecha_hasta" value="" /><br/>
+        </div>
         <button type="submit" class="save btn btn-success">Consultar</button>
     </form> 
 
@@ -14,7 +34,7 @@
   <thead>
     <tr>
       <th scope="col">Placa</th>
-      <th scope="col">Docuemento</th>
+      <th scope="col">Documento</th>
       <th scope="col">Nombre</th>
       <th scope="col">Celda</th>
       <th scope="col">Fecha</th>
@@ -32,9 +52,21 @@
     {% endfor %}
   </tbody>
 </table>
-
-    <a href="{% url 'nuevo_vehiculo' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
   
 
 </body>
+<script>
+
+  $('.form_datetime').datetimepicker({
+    language:  'es',
+    weekStart: 0,
+    todayBtn:  1,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 2,
+		forceParse: 1,
+    showMeridian: 1
+    });
+
+</script>
 {% endblock content %}

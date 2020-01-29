@@ -32,6 +32,7 @@
                 <li><a href="{% url 'nuevo_vehiculo' %}">Registro vehiculos</a></li>
                 <li><a href="{% url 'consultar_ingresos' %}">Consultar ingresos</a></li>
                 <li><a href="{% url 'registrar_ingreso' %}">Registrar ingreso</a></li>
+                <li><a href="{% url 'logout' %}">Cerrar sesion</a></li>
                 
               </ul>
              
@@ -53,20 +54,25 @@
 </html>
 <script>
 $(document).ready(function(){
-    console.log("sss");
-    
-   $("#tipo").change(function(){
-     if ($('#tipo').value=='1' ) {
+  prueba();
+    $("#tipo").on("change", function(){
+      prueba();
+    });
+ });
+
+ function prueba() {
+  
+     if ($('#tipo').val() === '1') {
         $('#moto').hide();
         $('#carro').show();
          
      }
-     if ($('#tipo').value=='2' ) {
+     if ($('#tipo').val() === '2') {
         $('#carro').hide();
         $('#moto').show();
         }
-   });
- });
+   
+ }
 
 </script>
 

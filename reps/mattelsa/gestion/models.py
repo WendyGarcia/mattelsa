@@ -34,7 +34,7 @@ class Vehiculo(models.Model):
     placa = models.CharField('Placa', max_length=200)
     modelo = models.CharField('Modelo', max_length=200, null=True, blank=True)
     puertas = models.IntegerField('Puertas', null=True, blank=True)    
-    foto = models.FileField('Foto', null=True, blank=True)
+    foto = models.FileField('Foto', upload_to='gestion/media', null=True, blank=True)
     tipo = models.ForeignKey(TipoVehiculo, verbose_name='Tipo vehiculo', on_delete=models.CASCADE)
 
 

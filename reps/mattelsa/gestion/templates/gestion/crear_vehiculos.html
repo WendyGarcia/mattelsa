@@ -2,7 +2,7 @@
 
 {% block content %}
 <h2>Crear vehiculo</h2>
-<form method="POST" class="post-form" action = "{% url 'registrar_vehiculo' %}">
+<form method="POST" class="post-form" action = "{% url 'registrar_vehiculo' %}" enctype="multipart/form-data">
     {% csrf_token %}
     <div>
         <div class="form-group">
@@ -17,7 +17,7 @@
         </div>
         <div class="form-group">
             <label for="tipo">Tipo documento</label>
-            <select class="form-control" id="tipo" name="tipo_documento">
+            <select class="form-control" id="tipo_documento" name="tipo_documento">
                 {% for val in tipo_documento %}
                     <option value ="{{val.id}}">{{val.nombre}}</option>
                 {% endfor %}
@@ -35,7 +35,7 @@
                 
             </select>
         </div>
-        <div id="moto" >
+        <div id="moto" style="display: none">
             <div class="form-group">
                 <label for="cilindraje">cilindraje</label>
                 <input type="text" class="form-control"  name ="cilindraje" id="cilindraje">
@@ -47,7 +47,7 @@
             
             </div>
         </div>
-        <div id="carro" >
+        <div id="carro" style="display: none">
             <div class="form-group">
                 <label for="modelo">modelo</label>
                 <input type="text" class="form-control" name ="modelo"  id="modelo">
@@ -76,19 +76,4 @@
 
 
 <script>
-$(document).ready(function(){
-    console.log("sss");
-    
-   $("#tipo").change(function(){
-     if ($('#tipo').value=='1' ) {
-        $('#moto').hide();
-        $('#carro').show();
-         
-     }
-     if ($('#tipo').value=='2' ) {
-        $('#carro').hide();
-        $('#moto').show();
-        }
-   });
- });
  </script>
